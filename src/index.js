@@ -1,8 +1,9 @@
 import './css/style.css';
+import { addProject } from './modules/project';
 
-class Project {
-  constructor(projectName) {
-    this.name = name;
-  }
-}
+const addProjectButton = document.getElementById("projectButton");
+
+addProjectButton.addEventListener("click", function() {
+  addProject();
+});
 
