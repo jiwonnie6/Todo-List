@@ -21,14 +21,19 @@
       </div>
       <div id="lists"></div>
     </div>
-    <form id="projectForm" style="visibility: hidden;">
-      <header class="createProjectTitle">Create a new project</header>
+  </div>
+  <form id="projectForm" method="dialog">
+    <dialog id="dialog">
       <br>
+      <div class="formHeaderWrapper">
+        <header class="createProjectTitle">Create a new project</header>
+        <button id="deleteFormButton">x</button>
+      </div>
       <br>
       <div class="projectTitle">Project title: <input type="text" id="projectTitleInput"></div>
       <br>
       <button id="submitProjectButton" type="submit">Submit</button>
-    </form>
-  </div>
+    </dialog>
+  </form>
 </body>
 </html>

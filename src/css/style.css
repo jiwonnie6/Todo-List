@@ -1,5 +1,18 @@
 body {
   font-family: 'roboto', sans-serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 50px;
 }
 
 .contentWrapper {
@@ -30,10 +43,8 @@ body {
 }
 
 /* project title form */
-#projectForm {
-  border: 1px solid black;
-  padding: 1em;
-  width: 320px;
+#dialog {
+  width: 300px;
   height: 150px;
   border-radius: 10px;
   text-align: center;
@@ -46,4 +57,11 @@ body {
 
 .projectTitle {
   font-size: 15px;
+}
+
+#deleteFormButton {
+  right: 0px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
 }
