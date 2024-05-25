@@ -11,12 +11,16 @@
       <header id="header">Todo List</header>
     </div>
     <div class="contentWrapper">
-      <div class="project">
+      <div class="project" id="projects">
         Project
         <button id="projectButton">+</button>
       </div>
       <div id="lists"></div>
     </div>
+    <form id="projectForm" style="visibility: hidden;">
+      <input type="text" id="projectTitleInput">
+      <button id="submitProjectButton" type="submit">Submit</button>
+    </form>
   </div>
 </body>
 </html>
