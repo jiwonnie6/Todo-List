@@ -13,7 +13,8 @@ submitProjectButton.addEventListener("click", function(e) {
 
   const projectTitleInput = document.getElementById("projectTitleInput").value;
 
-  const newProjectTitle = document.createElement("div");
+  const newProjectTitle = document.createElement("button");
+  newProjectTitle.setAttribute('type', 'button');
   newProjectTitle.classList.add("projectTitles");
   newProjectTitle.textContent = projectTitleInput;
   projects.appendChild(newProjectTitle);

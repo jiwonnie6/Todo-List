@@ -1,3 +1,7 @@
+body {
+  font-family: 'roboto', sans-serif;
+}
+
 .contentWrapper {
   border: 1px solid black;
   width: 500px;
@@ -11,13 +15,35 @@
   grid-row: 1/3;
 }
 
+.projectTitles {
+  border: 1px solid black;
+  box-sizing: border-box;
+  margin-top: -1px;
+  text-align: center;
+  width: 120px;
+  background-color: white;
+}
+
 #lists {
   /* border: 1px solid black; */
   grid-row: 2/3;
 }
 
-.projectTitles {
+/* project title form */
+#projectForm {
   border: 1px solid black;
-  box-sizing: border-box;
-  margin-top: -1px;
+  padding: 1em;
+  width: 320px;
+  height: 150px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.createProjectTitle {
+  font-size: 25px;
+  text-align: left;
+}
+
+.projectTitle {
+  font-size: 15px;
 }
