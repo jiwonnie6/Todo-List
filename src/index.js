@@ -1,10 +1,11 @@
 import './css/style.css';
-import { addProject, deleteProject } from './modules/project';
+import { addProject } from './modules/project';
+import { projectTodo } from './modules/todo'; 
 
 const addProjectButton = document.getElementById("projectButton");
-const deleteButton = document.getElementsByClassName("deleteButton");
 
 addProjectButton.addEventListener("click", function() {
   addProject();
 });
 
+projectTodo();

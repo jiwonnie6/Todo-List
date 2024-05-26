@@ -16,7 +16,7 @@ function deleteProject() {
       this.parentElement.remove();
     });
   });
-}
+};
 
 deleteFormButton.addEventListener("click", function(e) {
   e.preventDefault();
@@ -29,8 +29,7 @@ submitProjectButton.addEventListener("click", function(e) {
 
   const projectTitleInput = document.getElementById("projectTitleInput").value;
 
-  const newProjectTitle = document.createElement("button");
-  newProjectTitle.setAttribute('type', 'button');
+  const newProjectTitle = document.createElement("div");
   newProjectTitle.classList.add("projectTitles");
   newProjectTitle.textContent = projectTitleInput;
 
@@ -43,7 +42,7 @@ submitProjectButton.addEventListener("click", function(e) {
   projects.appendChild(newProjectTitle);
 
   document.getElementById("projectTitleInput").value = "";
-  projectForm.style.visibility = "hidden";
+  // projectForm.style.visibility = "hidden";
 
   dialog.close();
   deleteProject();
