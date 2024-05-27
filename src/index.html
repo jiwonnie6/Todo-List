@@ -15,11 +15,19 @@
       <header id="header">Todo List</header>
     </div>
     <div class="contentWrapper">
-      <div class="project" id="projects">
-        Project
-        <button id="projectButton">+</button>
+      <div class="project">
+        <div class="projectTop">
+          Project
+          <button id="projectButton">+</button>
+        </div>
+        <div id="projects"></div>
       </div>
-      <div id="lists"></div>
+      <div class="todoHeaderWrapper">
+        <div id="todoHeader"></div>
+      </div>
+      <div class="todo">
+        <div id="lists"></div>
+      </div>
     </div>
   </div>
   <form id="projectForm" method="dialog">
@@ -40,7 +48,7 @@
       <br>
       <div class="AddTaskWrapper">
         <header class="addTaskHeader">Add Task</header>
-        <button id="deleteFormButton">x</button>
+        <button id="deleteTaskFormButton">x</button>
       </div>
       <br>
       <div class="taskTitle">Task: <input type="text" id="taskInput"></div>

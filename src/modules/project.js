@@ -4,12 +4,19 @@ export function addProject() {
 }
 
 const projects = document.getElementById("projects");
-const projectForm = document.getElementById("projectForm");
 const dialog = document.getElementById("dialog");
 
 const submitProjectButton = document.getElementById("submitProjectButton");
 const deleteFormButton = document.getElementById("deleteFormButton");
 
+// close project form
+deleteFormButton.addEventListener("click", function(e) {
+  e.preventDefault();
+  document.getElementById("projectTitleInput").value = "";
+  dialog.close();
+});
+
+// delete project title
 function deleteProject() {
   document.querySelectorAll(".deleteProjectButtons").forEach(button => {
     button.addEventListener("click", function() {
@@ -17,12 +24,6 @@ function deleteProject() {
     });
   });
 };
-
-deleteFormButton.addEventListener("click", function(e) {
-  e.preventDefault();
-  document.getElementById("projectTitleInput").value = "";
-  dialog.close();
-});
 
 submitProjectButton.addEventListener("click", function(e) {
   e.preventDefault();
@@ -36,15 +37,14 @@ submitProjectButton.addEventListener("click", function(e) {
   const deleteButton = document.createElement("button");
   deleteButton.setAttribute('type', 'button');
   deleteButton.classList.add("deleteProjectButtons");
+  newProjectTitle.setAttribute("tabindex", "0");
   deleteButton.textContent = 'x';
   newProjectTitle.appendChild(deleteButton);
 
   projects.appendChild(newProjectTitle);
 
   document.getElementById("projectTitleInput").value = "";
-  // projectForm.style.visibility = "hidden";
 
   dialog.close();
   deleteProject();
 });
-
