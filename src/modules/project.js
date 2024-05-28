@@ -25,8 +25,21 @@ function deleteProject() {
   });
 };
 
+document.getElementById("projectTitleInput").addEventListener('keypress', function(e) {
+  if (this.value.length === 0 && e.key === ' ') {
+    e.preventDefault(); // Prevent the default action (inserting a space)
+  }
+});
+
+
 submitProjectButton.addEventListener("click", function(e) {
   e.preventDefault();
+
+  const form = document.getElementById('projectForm');
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
 
   const projectTitleInput = document.getElementById("projectTitleInput").value;
 

@@ -5,9 +5,10 @@ export function projectTodo() {
 
   projectsContainer.addEventListener("click", function(e) {
     if (e.target.classList.contains("projectTitles")) {
-      const projectTitle = e.target.childNodes[0].nodeValue.trim();
+      const projectTitle = e.target.childNodes[0].nodeValue;
       createTodoList(projectTitle);
       deleteTask(projectTitle);
+      deleteProjectTask();
     }
   });
 }
@@ -62,9 +63,12 @@ function addTask() {
 
 function deleteTask(projectTitle) {
   document.querySelectorAll(".deleteTaskButtons").forEach(button => {
-    button.addEventListener("click", function(e) {
-      const taskElement = this.parentElement;
-      const taskText = taskElement.childNodes[0].nodeValue.trim();
+    button.addEventListener("click", function() {
+      const task = this.parentElement;
+      console.log(task);
+      const taskText = task.childNodes[0].nodeValue;
+      console.log(taskText);
+      // const taskText = taskElement.childNodes[0].nodeValue.trim();
 
       // Remove the task from the projectTasks object
       const taskIndex = projectTasks[projectTitle].indexOf(taskText);
@@ -72,13 +76,38 @@ function deleteTask(projectTitle) {
         projectTasks[projectTitle].splice(taskIndex, 1);
       }
 
-      taskElement.remove();
+      // remove on page / html
+      task.remove();
     });
   });
 }
 
+function deleteProjectTask() {
+  document.querySelectorAll(".deleteProjectButtons").forEach(button => {
+    button.addEventListener("click", function(e) {
+      const projectTitle = e.target.closest(".projectTitles").childNodes[0].textContent;
+
+      if (projectTasks[projectTitle]) {
+        delete projectTasks[projectTitle];
+      }
+    })
+  });
+}
+
+document.getElementById("taskInput").addEventListener('keypress', function(e) {
+  if (this.value.length === 0 && e.key === ' ') {
+    e.preventDefault(); // Prevent the default action (inserting a space)
+  }
+});
+
 submitTaskButton.addEventListener("click", function(e) {
   e.preventDefault();
+
+  const form = document.getElementById('addTaskForm');
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
 
   const projectTitle = todoHeader.querySelector("header").textContent;
 
