@@ -7,8 +7,6 @@ export function projectTodo() {
     if (e.target.classList.contains("projectTitles")) {
       const projectTitle = e.target.childNodes[0].nodeValue;
       createTodoList(projectTitle);
-      deleteTask(projectTitle);
-      deleteProjectTask();
     }
   });
 }
@@ -22,10 +20,9 @@ const closeTaskForm = document.getElementById("deleteTaskFormButton");
 function createTodoList(projectTitle) {
   todoHeader.innerHTML = '';
   lists.innerHTML = '';
-  
+
   const todoListTitle = document.createElement("header");
   todoListTitle.textContent = projectTitle;
-
   todoHeader.appendChild(todoListTitle);
 
   const addTaskButton = document.createElement("button");
@@ -35,17 +32,8 @@ function createTodoList(projectTitle) {
 
   if (projectTasks[projectTitle]) {
     projectTasks[projectTitle].forEach(task => {
-      const taskInput = document.createElement("div");
-      taskInput.classList.add("taskInputs");
-      taskInput.textContent = task;
-
-      const deleteButton = document.createElement("button");
-      deleteButton.setAttribute('type', 'button');
-      deleteButton.classList.add("deleteTaskButtons");
-      deleteButton.textContent = 'x';
-      taskInput.appendChild(deleteButton);
-
-      lists.appendChild(taskInput);
+      const taskElement = createTaskElement(task.task, task.dueDate, task.priority);
+      lists.appendChild(taskElement);
     });
   }
 
@@ -53,7 +41,35 @@ function createTodoList(projectTitle) {
     addTask();
   });
 
-  deleteTask(projectTitle);
+  // deleteTask(projectTitle);
+}
+
+function createTaskElement(taskText, dueDate, priority) {
+  const taskInput = document.createElement("div");
+  taskInput.classList.add("taskInputs");
+  taskInput.textContent = taskText;
+
+  const dueDateInputAndPriorityInput = document.createElement("div");
+  dueDateInputAndPriorityInput.classList.add("dueAndPriority");
+  dueDateInputAndPriorityInput.textContent = `${priority} / ${dueDate}`;
+  taskInput.appendChild(dueDateInputAndPriorityInput);
+
+  const deleteButton = document.createElement("button");
+  deleteButton.setAttribute('type', 'button');
+  deleteButton.classList.add("deleteTaskButtons");
+  deleteButton.textContent = 'x';
+  taskInput.appendChild(deleteButton);
+
+  deleteButton.addEventListener("click", function() {
+    const projectTitle = todoHeader.querySelector("header").textContent.trim();
+    const taskIndex = projectTasks[projectTitle].findIndex(task => task.task === taskText && task.dueDate === dueDate && task.priority === priority);
+    if (taskIndex > -1) {
+      projectTasks[projectTitle].splice(taskIndex, 1);
+    }
+    taskInput.remove();
+  });
+
+  return taskInput;
 }
 
 function addTask() {
@@ -61,42 +77,9 @@ function addTask() {
   dialog.showModal();
 }
 
-function deleteTask(projectTitle) {
-  document.querySelectorAll(".deleteTaskButtons").forEach(button => {
-    button.addEventListener("click", function() {
-      const task = this.parentElement;
-      console.log(task);
-      const taskText = task.childNodes[0].nodeValue;
-      console.log(taskText);
-      // const taskText = taskElement.childNodes[0].nodeValue.trim();
-
-      // Remove the task from the projectTasks object
-      const taskIndex = projectTasks[projectTitle].indexOf(taskText);
-      if (taskIndex > -1) {
-        projectTasks[projectTitle].splice(taskIndex, 1);
-      }
-
-      // remove on page / html
-      task.remove();
-    });
-  });
-}
-
-function deleteProjectTask() {
-  document.querySelectorAll(".deleteProjectButtons").forEach(button => {
-    button.addEventListener("click", function(e) {
-      const projectTitle = e.target.closest(".projectTitles").childNodes[0].textContent;
-
-      if (projectTasks[projectTitle]) {
-        delete projectTasks[projectTitle];
-      }
-    })
-  });
-}
-
 document.getElementById("taskInput").addEventListener('keypress', function(e) {
   if (this.value.length === 0 && e.key === ' ') {
-    e.preventDefault(); // Prevent the default action (inserting a space)
+    e.preventDefault();
   }
 });
 
@@ -110,30 +93,21 @@ submitTaskButton.addEventListener("click", function(e) {
   }
 
   const projectTitle = todoHeader.querySelector("header").textContent;
-
   const taskInputValue = document.getElementById("taskInput").value;
+  const dueDate = document.getElementById("dueDateInput").value;
+  const prioritySelect = document.getElementById("select-priority");
+  const priority = prioritySelect.options[prioritySelect.selectedIndex].text;
 
-  const taskInput = document.createElement("div");
-  taskInput.classList.add("taskInputs");
-  taskInput.textContent = taskInputValue;
-
-  const deleteButton = document.createElement("button");
-  deleteButton.setAttribute('type', 'button');
-  deleteButton.classList.add("deleteTaskButtons");
-  deleteButton.textContent = 'x';
-  taskInput.appendChild(deleteButton);
-
-  lists.appendChild(taskInput);
+  const taskElement = createTaskElement(taskInputValue, dueDate, priority);
+  lists.appendChild(taskElement);
 
   if (!projectTasks[projectTitle]) {
     projectTasks[projectTitle] = [];
   }
-  projectTasks[projectTitle].push(taskInputValue);
+  projectTasks[projectTitle].push({ task: taskInputValue, dueDate: dueDate, priority: priority });
 
   document.getElementById("taskInput").value = "";
-
   dialog.close();
-  deleteTask(projectTitle);
 });
 
 closeTaskForm.addEventListener("click", function(e) {
