@@ -286,6 +286,12 @@ body {
   margin-top: 5px;
 }
 
+.taskDetails {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
 /* due date and priortiy in tasks */
 
 .dueAndPriority {

@@ -1,4 +1,4 @@
-const projectTasks = {};
+import { todoList } from "./tasks.js";
 
 export function projectTodo() {
   const projects = document.getElementById("projects");
@@ -38,15 +38,13 @@ function createTodoList(projectTitle) {
     addTaskForm();
   });
 
-
-  // might not have to do this if you create seperate containers and swiwtch them ? 
-  if (projectTasks[projectTitle]) {
-    projectTasks[projectTitle].forEach(task => {
-      const taskElements = createTaskElements(task.task, task.priority, task.dueDate);
+  const project = todoList.getProject(projectTitle);
+  if (project) {
+    project.getTasks().forEach(task => {
+      const taskElements = createTaskElements(task.checked, task.task, task.priority, task.dueDate);
       lists.appendChild(taskElements);
     });
   }
-
 }
 
 function addTaskForm() {
@@ -54,17 +52,19 @@ function addTaskForm() {
 }
 
 deleteTaskForm.addEventListener("click", function(e) {
+  document.getElementById("taskInput").value = "";
+  document.getElementById("dueDateInput").value = "";
   dialog.close();
 });
 
 submitTaskButton.addEventListener("click", function(e) {
   e.preventDefault();
 
-  // const form = document.getElementById('addTaskForm');
-  // if (!form.checkValidity()) {
-  //   form.reportValidity();
-  //   return;
-  // }
+  const form = document.getElementById('addTaskForm');
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
   
   const projectTitle = todoHeader.querySelector("header").textContent;
 
@@ -72,29 +72,47 @@ submitTaskButton.addEventListener("click", function(e) {
   const priority = document.getElementById("select-priority").options[document.getElementById("select-priority").selectedIndex].text;
   const dueDate = document.getElementById("dueDateInput").value;
 
-  const taskElements = createTaskElements(task, priority, dueDate);
+  const taskElements = createTaskElements(false, task, priority, dueDate);
   lists.append(taskElements);
 
-  if (!projectTasks[projectTitle]) {
-    projectTasks[projectTitle] = [];
+  const project = todoList.getProject(projectTitle);
+  if (project) {
+    project.addTask(false, task, priority, dueDate);
   }
-  projectTasks[projectTitle].push( {task: task, priority: priority, dueDate: dueDate} );
 
   document.getElementById("taskInput").value = "";
+  document.getElementById("dueDateInput").value = "";
   dialog.close();
 });
 
-function createTaskElements(task, priority, dueDate) {
+function createTaskElements(checked, task, priority, dueDate) {
   // get task and put task text 
   const taskInput = document.createElement("div");
   taskInput.classList.add("taskInputs");
-  taskInput.textContent = task;
+
+  // append done checklist
+  const check = document.createElement("input");
+  check.setAttribute("type", "checkbox");
+  check.classList.add("checkbox");
+  check.checked = checked;
+  taskInput.appendChild(check);
+
+  // create task details div
+  const taskDetails = document.createElement("div");
+  taskDetails.classList.add("taskDetails");
+
+  // get task and put task text 
+  const taskText = document.createElement("div");
+  taskText.textContent = task;
+  taskDetails.appendChild(taskText);
 
   // get priority and due date inputs and append it to taskInput div
   const priorityAndDuedate = document.createElement("div");
   priorityAndDuedate.classList.add("dueAndPriority");
   priorityAndDuedate.textContent = `${priority} / ${dueDate}`;
-  taskInput.appendChild(priorityAndDuedate);
+  taskDetails.appendChild(priorityAndDuedate);
+
+  taskInput.appendChild(taskDetails);
 
   // create delete button for tasks
   const deleteButton = document.createElement("button");
@@ -103,15 +121,27 @@ function createTaskElements(task, priority, dueDate) {
   deleteButton.textContent = "x";
   taskInput.appendChild(deleteButton);
 
-  // when deleteButton clicked delete task
   deleteButton.addEventListener("click", function() {
     const projectTitle = todoHeader.querySelector("header").textContent;
-    const taskIndex = projectTasks[projectTitle].findIndex(t => t.task === task && t.priority === priority && t.dueDate === dueDate);
-    if (taskIndex > -1) {
-      projectTasks[projectTitle].splice(taskIndex, 1);
+    const project = todoList.getProject(projectTitle);
+    if (project) {
+      project.removeTask(task);
     }
-    console.log(projectTasks[projectTitle]);
     taskInput.remove();
+  });
+
+  if (checked) {
+    taskText.style.textDecoration = "line-through";
+  }
+
+  check.addEventListener("change", function() {
+    const projectTitle = todoHeader.querySelector("header").textContent;
+    const project = todoList.getProject(projectTitle);
+    const taskObj = project.getTasks().find(t => t.task === task);
+    if (taskObj.checked = this.checked) {
+      // taskObj.checked = this.checked;
+      taskText.style.textDecoration = this.checked ? "line-through" : "none";
+    }
   });
 
   return taskInput;
