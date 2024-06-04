@@ -139,7 +139,6 @@ function createTaskElements(checked, task, priority, dueDate) {
     const project = todoList.getProject(projectTitle);
     const taskObj = project.getTasks().find(t => t.task === task);
     if (taskObj.checked = this.checked) {
-      // taskObj.checked = this.checked;
       taskText.style.textDecoration = this.checked ? "line-through" : "none";
     }
   });
