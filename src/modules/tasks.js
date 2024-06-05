@@ -25,6 +25,10 @@ export class Project {
   getTasks() {
     return this.tasks;
   }
+
+  // reviseTasks() {
+
+  // }
 }
 
 export class TodoList {
@@ -58,9 +62,9 @@ todoList.addProject("Errands");
 todoList.addProject("HW");
 
 // Add default tasks to the projects
-todoList.getProject("Default").addTask(false, "Default", "Low", "1111-11-1");
-todoList.getProject("Errands").addTask(false, "Buy groceries", "Medium", "1111-11-1");
-todoList.getProject("Errands").addTask(true, "Do laundry", "Low", "1111-11-1");
-todoList.getProject("Errands").addTask(true, "Drop off package", "Medium", "1111-11-1");
-todoList.getProject("HW").addTask(false, "Science HW", "High", "1111-11-1");
-todoList.getProject("HW").addTask(false, "Essay", "Medium", "1111-11-1");
+todoList.getProject("Default").addTask(false, "Default", "Low", "1111-11-11");
+todoList.getProject("Errands").addTask(false, "Buy groceries", "Medium", "1111-11-11");
+todoList.getProject("Errands").addTask(true, "Do laundry", "Low", "1111-11-11");
+todoList.getProject("Errands").addTask(true, "Drop off package", "Medium", "1111-11-11");
+todoList.getProject("HW").addTask(false, "Science HW", "High", "1111-11-11");
+todoList.getProject("HW").addTask(false, "Essay", "Medium", "1111-11-11");
