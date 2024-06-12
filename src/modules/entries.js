@@ -2,6 +2,7 @@ import { todoList } from "./tasks.js";
 
 export function entriesF() {
   showEntries();
+  entries.click();
 }
 
 const entries = document.getElementById("entriesIdButton");
